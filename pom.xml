@@ -5,14 +5,14 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Informations du projet -->
-    <groupId>com.example</groupId>
-    <artifactId>demo</artifactId>
+    <!-- Informations du projet (Atelier 1) -->
+    <groupId>tn.esprit.autoloc</groupId>
+    <artifactId>autoloc-api</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>demo</name>
-    <description>Projet Spring Boot Exemple</description>
+    <name>autoloc-api</name>
+    <description>Projet AutoLoc - API Spring Boot</description>
 
     <!-- Parent Spring Boot -->
     <parent>
@@ -25,20 +25,20 @@
     <!-- Propriétés globales -->
     <properties>
         <java.version>17</java.version>
-        <lombok.version>1.18.36</lombok.version>
+        <lombok.version>1.18.38</lombok.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <!-- Dépendances du projet -->
     <dependencies>
-        <!-- Starter Web pour API REST et Spring MVC -->
+        <!-- Spring Web pour API REST et Spring MVC -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Starter JPA pour l'accès aux bases de données avec Hibernate -->
+        <!-- Spring Data JPA pour l'accès aux bases de données avec Hibernate -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -51,10 +51,33 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Spring Boot Validation (Hibernate Validator) -->
+        <!-- Base de données H2 (pour le développement/tests si besoin) -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Spring Boot Validation (Bean Validation) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Spring Boot DevTools -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
 
         <!-- Starter Test pour les tests unitaires et d'intégration -->
@@ -68,14 +91,20 @@
     <!-- Configuration des plugins de build -->
     <build>
         <plugins>
-            <!-- Plugin Maven Compiler -->
+            <!-- Plugin Maven Compiler avec support annotation processing pour Lombok -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <!-- Plugin Maven pour exécuter et packager Spring Boot -->
